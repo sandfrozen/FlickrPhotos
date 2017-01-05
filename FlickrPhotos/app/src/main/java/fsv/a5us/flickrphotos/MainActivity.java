@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     ProgressBar mProgressBar;
     private ArrayList<FlickrPhoto> mPhotos = new ArrayList<FlickrPhoto>();
-    public final static String API_KEY = "aa9d2aba397225569a63fdd06e68c910";
+    public final static String API_KEY = "952a0c32152dd9df78012314c4d363fd";
     public final static String NUM_PHOTOS = "12";
 
     @Override
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             task.execute();
         } else{
             mProgressBar.setVisibility(View.GONE);
-            Toast.makeText(MainActivity.this.getApplicationContext(), "Aby pobrać zdjęcia, musisz się połączyć z siecią!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this.getApplicationContext(), "Aby pobrać zdjęcia, musisz się połączyć z siecią.", Toast.LENGTH_SHORT).show();
         }
     }
     public ArrayList<FlickrPhoto> getPhotos(){
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     public void showList(){
         PhotoListFragment photoListFragment = new PhotoListFragment();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.listView, photoListFragment.getParentFragment()); //
+        ft.replace(R.id.list, photoListFragment); //R.id.activity_main - > R.id.listView
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
     }
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Long result) {
-            if(result==0){
+            if(result == 0){
                 showList();
             }else{
                 Toast.makeText(MainActivity.this.getApplicationContext(), "Nie udało się wczytać zdjęć.", Toast.LENGTH_SHORT).show();
@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 connection.connect();
                 int status = connection.getResponseCode();
                 if( status == 200 ){
-                    Toast.makeText(MainActivity.this.getApplicationContext(), "Połączyło.", Toast.LENGTH_SHORT).show();
                     InputStream is = connection.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(is));
                     String responseString;
@@ -105,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
                     return (0l);
                 }
                 else{
-                    Toast.makeText(MainActivity.this.getApplicationContext(), "Nie połączyło.", Toast.LENGTH_SHORT).show();
                     return (1l);
                 }
             } catch (MalformedURLException e){
@@ -121,6 +119,10 @@ public class MainActivity extends AppCompatActivity {
                 return (1l);
             }
             catch (JSONException e){
+                e.printStackTrace();
+                return (1l);
+            }
+            catch (Exception e){
                 e.printStackTrace();
                 return (1l);
             }finally {

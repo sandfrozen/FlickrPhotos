@@ -22,7 +22,7 @@ public class PhotoListFragment extends ListFragment {
         MainActivity currentActivity = (MainActivity) this.getActivity();
         ArrayList<FlickrPhoto> photos = currentActivity.getPhotos();
         mTitles = new String[photos.size()];
-        for (int i=0; i<photos.size(); i++){
+        for (int i=0; i<photos.size(); i++) {
             mTitles[i] = photos.get(i).title;
         }
         setListAdapter(new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, mTitles));
